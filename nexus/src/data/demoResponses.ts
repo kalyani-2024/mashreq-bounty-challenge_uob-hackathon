@@ -24,7 +24,9 @@ export function getDemoPriorityAssessment(customer: Customer): PriorityAssessmen
     if (customer.complaint.severity === 'critical') score += 1;
 
     const finalScore = Math.min(10, Math.round(score * 10) / 10);
-    const churnRisk = severeSentiment ? 0.75 + Math.random() * 0.2 : 0.4 + Math.random() * 0.3;
+    const severityBase: Record<string, number> = { critical: 0.88, high: 0.72, medium: 0.52, low: 0.32 };
+    const churnRiskBase = severityBase[customer.complaint.severity] ?? 0.5;
+    const churnRisk = severeSentiment ? Math.min(0.98, churnRiskBase + 0.08) : churnRiskBase;
 
     return {
         priority_score: finalScore,

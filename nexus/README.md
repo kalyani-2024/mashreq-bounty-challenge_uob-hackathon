@@ -1,73 +1,86 @@
-# React + TypeScript + Vite
+# NEXUS – Crisis Intelligence
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Challenge:** AI for Social Signal Intelligence in Banking (Mashreq / Responsible AI)  
+**Domain:** Banking, brand trust, operational resilience – no live social data, no PII.
 
-Currently, two official plugins are available:
+NEXUS is a prototype that helps a bank **detect**, **interpret**, and **responsibly respond** to public social signals (synthetic only) with human-in-the-loop and clear guardrails.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## What this prototype covers
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Service / incident signals** – API downtime, app crashes, billing issues (clusters, 5 Whys, narrative chain).
+- **Misinformation / false claims** – Claim verification (SIGMA), confidence, human review for uncertain cases.
+- **Executive briefing** – C-Suite dashboard, strategy approval/reject, AI-assisted summary.
+- **Network & narrative** – Influencer graph, narrative chain (origin → amplification → misinfo → critical), cascade prediction, prevention controls.
 
-## Expanding the ESLint configuration
+All data is **synthetic or team-created**; no real social feeds or personal data.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Responsible AI & governance
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### AI guardrails (system boundaries)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- **This system does not:** post on social media, change accounts, process refunds, or take any action without human approval.
+- **Human oversight:** All recommendations require analyst review and C-Suite approval before any action. The AI supports decisions; it does not execute them.
+- **Guardrails UI:** Use the **Guardrails** button in the app header to open the full “AI guardrails” panel.
+
+### Audit trail (documented design)
+
+In a production deployment, **every decision is recorded in the audit database** for compliance and review:
+
+- **What is recorded:** Verification outcomes (confirm / deny / investigate), C-Suite approvals and rejections, analyst notes, timestamps.
+- **Who / when:** User or role ID and timestamp for each decision.
+- **Purpose:** Auditability, governance, and regulatory alignment. The prototype UI does not implement the audit log view; the production system would persist these records (e.g. in a database) and expose them via an audit log UI or export.
+
+---
+
+## How to use this prototype
+
+1. **Clusters** – Pick a crisis cluster (e.g. API Downtime). Everything else (posts, RCA, brief, network, customers) is scoped to that cluster.
+2. **Posts** – See synthetic posts; open "View Analysis" for claim verification (SIGMA) and human review when needed.
+3. **RCA** – Expand 5 Whys, pick a response strategy, run simulation, then submit for C-Suite approval.
+4. **Executive Brief** – Review the strategy and approve/reject (or request AI assistance).
+5. **Network** – Inspect the influencer graph (orange ring = narrative path) and narrative chain with "Why this matters" and intervention points.
+6. **Customers** – View at-risk VIPs and priority/explainability.
+
+Use the **Guardrails** button in the header to see system boundaries and audit design.
+
+---
+
+## Run the app
+
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Open the URL shown in the terminal (e.g. `http://localhost:5173`).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Demo mode:** No API key required; AI responses use built-in demo data.
+- **With Claude:** Set `VITE_ANTHROPIC_API_KEY` in `.env` for live AI simulation/priority/recovery.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+## Tech stack
+
+- React 18, TypeScript, Vite
+- Zustand (state), Framer Motion (UI), Tailwind CSS
+- React Flow (network graph), Recharts (charts)
+
+---
+
+## Project structure (high level)
+
+- `src/components/sections/` – Clusters, Posts, RCA, Exec Brief, Network, Customers.
+- `src/components/shared/` – Guardrails panel, Verification panel, AI explainability, Bottom nav.
+- `src/data/` – Synthetic clusters, posts, narrative chain, verification, demo AI responses.
+- `src/services/` – AI service (Claude + demo fallback).
+- `src/store/` – Global state (cluster selection, approvals, post status).
+
+---
+
+## License
+
+See repository license.

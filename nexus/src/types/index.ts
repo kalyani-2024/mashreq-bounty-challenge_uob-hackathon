@@ -33,6 +33,12 @@ export interface Customer {
     complaint: Complaint;
     relationship_manager: string;
     last_contact: string;
+    // Extended fields for churn analysis
+    churn_risk?: number;
+    social_reach?: number;
+    sentiment_score?: number;
+    segment?: string;
+    complaints_6m?: number;
 }
 
 export interface Complaint {
@@ -203,3 +209,59 @@ export interface AppState {
     isLoading: boolean;
     demoMode: boolean;
 }
+
+// Section navigation
+export type SectionId = 'clusters' | 'posts' | 'rca' | 'brief' | 'network' | 'customers';
+
+// Post status tracking
+export type PostStatus = 'active' | 'watch' | 'resolved' | 'verified' | 'flagged' | 'new';
+
+export interface PostWithStatus {
+    id: string;
+    clusterId: string;
+    handle: string;
+    name: string;
+    content: string;
+    timestamp: string;
+    sentiment: number;
+    reach: number;
+    engagement: number;
+    status: PostStatus;
+    narrativeStage?: 'ORIGINATOR' | 'AMPLIFIER' | 'MISINFO' | 'CRITICAL';
+}
+
+// Strategy Lab feedback
+export interface StrategyFeedback {
+    score: number;
+    comparison: string;
+    why_good: string;
+    risks: string;
+    risk_percentage: number;
+    cost: number;
+    roi: string;
+    improvements: string;
+    confidence: number;
+}
+
+// Executive brief summary
+export interface ExecBriefData {
+    clustersCount: number;
+    totalPosts: number;
+    ceoRisks: number;
+    viralReduction: { from: number; to: number };
+    rcaCompletion: number;
+    topRisk: {
+        customer: string;
+        priority: number;
+        rootCause: string;
+        action: string;
+        confidence: number;
+    };
+    preventiveMeasures: string[];
+    decisionNeeded: string;
+}
+
+// Re-export data types
+export type { Cluster } from '../data/clusters';
+export type { NarrativeChainStep } from '../data/narrativeChain';
+export type { PreventionNode, CascadePrediction } from '../data/preventionNodes';
