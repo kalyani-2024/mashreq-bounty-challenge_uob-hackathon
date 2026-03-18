@@ -7,11 +7,11 @@
 
 **NEXUS is an AI-powered social intelligence system with TWO innovations:**
 
-1. **Core Detection Engine** (satisfies hackathon requirements)
-   - Detects ALL 5 required scenarios
-   - Provides explainable insights
-   - Handles confidence & uncertainty
-   - Human-in-the-loop approval
+1. **Core Detection Engine** (meets hackathon requirements)
+   - Identifies ALL 5 required scenarios
+   - Delivers explainable and transparent insights
+   - Accounts for confidence levels and uncertainty
+   - Integrates human-in-the-loop validation and approval
 
 2. **Dual-Track Intelligence** (your winning differentiator)
    - Crisis Track: Viral threat protection
